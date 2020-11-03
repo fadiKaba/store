@@ -1,0 +1,18 @@
+.main-nav{
+    min-height:80px;
+
+    .items-center{
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0; // remove the gap so it doesn't close
+         }
+        li{
+            a.nav-link{
+                font-size: 1rem;
+                color:#000;
+                cursor: pointer;
+                padding:0.6rem 1rem;               
+            }
+        }
+    }
+}
