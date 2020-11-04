@@ -27,7 +27,11 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 import Product from './components/Product';
+import BrowsCategory from './components/BrowsCategory';
+import ProductFilter from './components/ProductFilter';
+import TopProducts from './components/TopProducts';
+
 const app = new Vue({
     el: '#app',
-    components:{Product}
+    components:{Product, BrowsCategory, ProductFilter, TopProducts}
 });

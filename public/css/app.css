@@ -10060,3 +10060,10 @@ h3 {
 .footer .fp3 p {
   text-align: center;
 }
+
+.shop .nav-shop {
+  background-color: #f1f6f7;
+}
+.shop .btn-t {
+  color: grey;
+}

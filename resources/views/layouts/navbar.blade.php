@@ -10,12 +10,12 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mx-auto items-center">
                          <li class="nav-item dropdown">
-                            <a class="nav-link">Home</a>
+                            <a href="/" class="nav-link">Home</a>
                          </li>
                          <li class="nav-item dropdown">
                             <a class="nav-link" href="#" id="dropdown-shop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-shop">
-                                <a class="dropdown-item" href="#">Shop Categoty</a>
+                                <a class="dropdown-item" href="/shop">Shop Categoty</a>
                                 <a class="dropdown-item" href="#">Product Detail</a>
                                 <a class="dropdown-item" href="#">Confirmation</a>
                             </div>
