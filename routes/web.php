@@ -22,3 +22,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/shop', 'ShopController@index');
+
+Route::group(['middleware' => ['AdminMiddleware']], function(){
+    Route::get('/admin', 'AdminController@index');
+    Route::post('/user/store', 'AdminController@store');
+    Route::get('/user/{userName}/search', 'SearchController@searchA');
+    Route::get('/user/all', 'UserController@index');
+});

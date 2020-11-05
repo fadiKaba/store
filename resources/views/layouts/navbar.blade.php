@@ -37,10 +37,6 @@
                                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                     @endif
                                 @else
-                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                            {{ Auth::user()->name }}
-                                        </a>
-
                                             <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                             document.getElementById('logout-form').submit();">
@@ -61,9 +57,30 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                        <li class="nav-item">
-                           <a href="#" class="nav-link">
+                           <a href="#" class="nav-link p-0">
                                <img src="./ico/shopping-cart.svg" alt="" width="22px">
                                <span class="badge badge-pill badge-primary">4</span>
+                               @if(Auth::check())
+                               <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle p-0 pl-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                    document.getElementById('logout-form1').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+
+                                    <form id="logout-form1" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                    @if(Auth::user()->is_admin == 1)
+                                    <a href="/admin" class="dropdown-item">Admin</a>
+                                    @endif
+                                </div>           
+                               </li>
+                               @endif
                            </a>                         
                        </li>
                     </ul>
