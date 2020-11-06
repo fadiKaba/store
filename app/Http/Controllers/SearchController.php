@@ -15,8 +15,7 @@ class SearchController extends Controller
              if(count($users)> 0){
                 return $users; 
              }
-             $users = User::all()->paginate(2);
-             return $users;
+             return 'Not found';
          }
               
     }

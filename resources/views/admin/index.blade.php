@@ -33,7 +33,7 @@
             </form> 
         </div>
         <div class="col-md-6">
-            <search-a></search-a>
+            <search-a csrf="{{csrf_token()}}"></search-a>
         </div>
     </div>
          

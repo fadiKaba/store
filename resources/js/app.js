@@ -31,9 +31,10 @@ import BrowsCategory from './components/BrowsCategory';
 import ProductFilter from './components/ProductFilter';
 import TopProducts from './components/TopProducts';
 import SearchA from './components/SearchA';
+import ProductsContainer from './components/ProductsContainer';
 
 const app = new Vue({
     el: '#app',
-    components:{Product, BrowsCategory, ProductFilter, TopProducts, SearchA}
+    components:{Product, BrowsCategory, ProductFilter, TopProducts, SearchA, ProductsContainer}
 });
 

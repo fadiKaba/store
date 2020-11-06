@@ -24,7 +24,7 @@
               <p class="text-muted mb-0">Popular Item in the market</p>
               <h2 class="pb-2 pb-md-5">Trending <span>Products</span></h2>
               <div class="products-container">
-                 <Product img-url="product1.png" category="accessories" name="watch" price="150"></Product> 
+                 <products-container></products-container>
               </div>             
          </div>
     </section>  

@@ -1,5 +1,5 @@
 <template>
-    <div class="card text-center border-0" style="width: 18rem;">
+    <div class="card text-center border-0" style="width: 100%;">
         <div @mouseover="show=true" @mouseleave="show=false">
            <img :src="'./images/products/'+imgUrl" class="card-img-top" :alt="name" >
             <transition name="fade">

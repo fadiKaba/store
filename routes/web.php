@@ -25,7 +25,12 @@ Route::get('/shop', 'ShopController@index');
 
 Route::group(['middleware' => ['AdminMiddleware']], function(){
     Route::get('/admin', 'AdminController@index');
-    Route::post('/user/store', 'AdminController@store');
-    Route::get('/user/{userName}/search', 'SearchController@searchA');
     Route::get('/user/all', 'UserController@index');
+    Route::post('/user/store', 'UserController@store');  
+    Route::get('/user/{user_id}/edit', 'UserController@edit');   
+    Route::patch('/user/{user_id}', 'UserController@update');  
+    Route::delete('/user/{user_id}', 'UserController@destroy');
+    Route::get('/user/{userName}/search', 'SearchController@searchA');
+
+    Route::post('/product/store', 'ProductController@store');
 });

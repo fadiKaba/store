@@ -58,7 +58,7 @@
                     <ul class="navbar-nav ml-auto">
                        <li class="nav-item">
                            <a href="#" class="nav-link p-0">
-                               <img src="./ico/shopping-cart.svg" alt="" width="22px">
+                               <img src="/ico/shopping-cart.svg" alt="" width="22px">
                                <span class="badge badge-pill badge-primary">4</span>
                                @if(Auth::check())
                                <li class="nav-item dropdown">
@@ -66,6 +66,9 @@
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @if(Auth::user()->is_admin == 1)
+                                    <a href="/admin" class="dropdown-item">Admin</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                     document.getElementById('logout-form1').submit();">
@@ -74,10 +77,7 @@
 
                                     <form id="logout-form1" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
-                                    </form>
-                                    @if(Auth::user()->is_admin == 1)
-                                    <a href="/admin" class="dropdown-item">Admin</a>
-                                    @endif
+                                    </form>                                  
                                 </div>           
                                </li>
                                @endif

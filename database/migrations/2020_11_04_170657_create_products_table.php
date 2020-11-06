@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->decimal('product_price', 10, 2);
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('company_id');
-            $table->integer('product_trending');
+            $table->integer('product_trending')->default(0);
             $table->integer('product_availability')->default(1);
             $table->integer('product_quantity')->default(10);
             $table->text('product_description')->nullable();
