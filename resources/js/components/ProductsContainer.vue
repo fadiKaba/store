@@ -68,7 +68,6 @@
                  {{errors}}
             </div> 
             <div v-for="product in products" :key="'p'+product.product_id" class="col-md-4 mt-3">
-
                 <product 
                 :img-url="(product.product_img != null) && (product.product_img != '')?product.product_img:'no_image.jpg'" 
                 :category="product.category_name"

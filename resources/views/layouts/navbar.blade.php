@@ -1,5 +1,4 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm main-nav">
-    <div id="cart"></div>
             <div class="container">
                 <a class="navbar-brand text-primary font-weight-bold" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -56,11 +55,37 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto items-right">
+                        <li class="nav-item">        
+                            <a class="nav-link p-0 cart-btn" data-toggle="modal" data-target="#staticBackdrop">
+                                <img src="/ico/shopping-cart.svg" alt="" width="22px">
+                                <span class="badge badge-pill badge-primary" v-text="itemsCount"></span>
+                            </a>
+                            <div class="modal-dialog modal-dialog-scrollable m-0">
+                                <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title" id="staticBackdropLabel">My Shoping Cart</h5>
+                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body" >
+                                            <ul class="list-group list-group-flush" id="cart"></ul>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <button type="button" class="btn btn-warning">Submit</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
                        <li class="nav-item">
                            <a href="#" class="nav-link p-0">
-                               <img src="/ico/shopping-cart.svg" alt="" width="22px">
-                               <span class="badge badge-pill badge-primary">4</span>
+                               
                                @if(Auth::check())
                                <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle p-0 pl-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

@@ -32,17 +32,88 @@ import ProductFilter from './components/ProductFilter';
 import TopProducts from './components/TopProducts';
 import SearchA from './components/SearchA';
 import ProductsContainer from './components/ProductsContainer';
+import ProductClass from './ProductClass';
 import Axios from 'axios';
-
+Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
 const app = new Vue({
     el: '#app',
     components:{Product, BrowsCategory, ProductFilter, TopProducts, SearchA, ProductsContainer},
+    data: function(){
+        return{
+            recievedItems:[],
+            items:[],
+            itemsCount: 0,
+            auth_id:'',
+        }
+    },
+    created:function(){
+        this.getCartMain();
+    },
     methods:{
         getCart(arr){
+           // console.log(arr);
+            if(arr.length > 0){
+                arr.forEach(item => {
+                    this.recievedItems.push(item.product[0]);
+                })      
+                this.recievedItems.forEach(item => {this.makeProductItem(item)});
+                this.addItemsToCart(this.items);                              
+            }          
+        },
+        //adding an object ProductClass to items
+        makeProductItem: function(item){
+           let productItem = new ProductClass(
+            item.product_id,
+            item.product_name,
+            item.product_img,
+            item.product_price,
+            item.product_quantity,
+            item.company_id,
+            item.category_id,
+            '',
+            item.product_availability,
+            item.product_trending,
+            item.product_description,
+            item.created_at,
+            item.updated_at
+           );
+           this.items.push(productItem);
+           this.itemsCount = this.recievedItems.length; 
+        },
+        addItemsToCart(arr){
             let cart = document.querySelector('#cart');
-            cart.innerHTML = arr[1].user_id;
-            console.log(arr)
-        }
+            let cartContent = "";
+            arr.forEach(el => {
+            cartContent += `
+            <li class="list-group-item">
+                <div class="card mb-3 border-0" style="max-width: 540px;">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                        <img src="/images/products/${el.product_img}" class="card-img" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">${el.product_name}</h5>
+                                <p class="card-text">${el.product_price}</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>`;
+            });       
+            cart.innerHTML = cartContent;
+        },
+        getCartMain: function(){
+            console.log(this.$userId)
+            if(this.$userId != ''){
+               axios.get(`/cart/${this.$user_id}`)
+               .then(response => {
+                this.getCart(response.data);
+                console.log(response.data)
+                }) 
+            }   
+        },
     }
 });
 

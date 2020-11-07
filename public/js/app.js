@@ -1991,9 +1991,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     showBtn: function showBtn() {
-      console.log(this.show);
       this.show = true;
-      console.log(this.show);
     },
     addToCart: function addToCart(userId, productId) {
       var formData = new FormData();
@@ -2068,7 +2066,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Product__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Product */ "./resources/js/components/Product.vue");
 /* harmony import */ var _SearchBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SearchBar */ "./resources/js/components/SearchBar.vue");
 /* harmony import */ var _ProductClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ProductClass */ "./resources/js/ProductClass.js");
-//
 //
 //
 //
@@ -6908,7 +6905,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".card h5[data-v-7e94e6d4] {\n  text-transform: capitalize;\n  font-size: 0.9rem;\n}\n.card a[data-v-7e94e6d4] {\n  font-size: 1.2rem;\n  text-transform: capitalize;\n  font-family: \"Times New Roman\", Times, serif;\n  font-weight: bold;\n}\n.card p[data-v-7e94e6d4] {\n  font-size: 1rem;\n  font-family: \"Times New Roman\", Times, serif;\n  font-weight: bold;\n}\n.card .blue-btns-container[data-v-7e94e6d4] {\n  background-color: rgba(255, 255, 255, 0.356);\n  height: 70px;\n  transition: 0.5s;\n}\n.card .blue-btns-container .square-blue-btn[data-v-7e94e6d4] {\n  background-color: rgba(60, 77, 234, 0.678);\n  padding: 10px;\n  transition: 0.1s;\n}\n.card .blue-btns-container .square-blue-btn[data-v-7e94e6d4]:hover {\n  background-color: #3c4dea;\n}\n.fade-enter-active[data-v-7e94e6d4], .fade-leave-active[data-v-7e94e6d4] {\n  transition: opacity 0.5s;\n}\n.fade-enter[data-v-7e94e6d4], .fade-leave-to[data-v-7e94e6d4] {\n  opacity: 0;\n}", ""]);
+exports.push([module.i, ".card h5[data-v-7e94e6d4] {\n  text-transform: capitalize;\n  font-size: 0.9rem;\n}\n.card a[data-v-7e94e6d4] {\n  font-size: 1.2rem;\n  text-transform: capitalize;\n  font-family: \"Times New Roman\", Times, serif;\n  font-weight: bold;\n}\n.card p[data-v-7e94e6d4] {\n  font-size: 1rem;\n  font-family: \"Times New Roman\", Times, serif;\n  font-weight: bold;\n}\n.card .blue-btns-container[data-v-7e94e6d4] {\n  background-color: rgba(255, 255, 255, 0.356);\n  height: 70px;\n  transition: 0.5s;\n}\n.card .blue-btns-container .square-blue-btn[data-v-7e94e6d4] {\n  background-color: rgba(60, 77, 234, 0.678);\n  padding: 6px;\n  transition: 0.1s;\n  border: none;\n}\n.card .blue-btns-container .square-blue-btn[data-v-7e94e6d4]:hover {\n  background-color: #3c4dea;\n}\n.fade-enter-active[data-v-7e94e6d4], .fade-leave-active[data-v-7e94e6d4] {\n  transition: opacity 0.5s;\n}\n.fade-enter[data-v-7e94e6d4], .fade-leave-to[data-v-7e94e6d4] {\n  opacity: 0;\n}", ""]);
 
 // exports
 
@@ -38977,7 +38974,7 @@ var render = function() {
                   { staticClass: "card-img-overlay py-4 blue-btns-container" },
                   [
                     _c(
-                      "a",
+                      "button",
                       { staticClass: "square-blue-btn", attrs: { href: "#" } },
                       [
                         _c("img", {
@@ -38991,7 +38988,7 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c(
-                      "a",
+                      "button",
                       { staticClass: "square-blue-btn", attrs: { href: "#" } },
                       [
                         _c("img", {
@@ -39005,7 +39002,7 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _c(
-                      "a",
+                      "button",
                       {
                         staticClass: "square-blue-btn",
                         attrs: { href: "#" },
@@ -52124,8 +52121,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_TopProducts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/TopProducts */ "./resources/js/components/TopProducts.vue");
 /* harmony import */ var _components_SearchA__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/SearchA */ "./resources/js/components/SearchA.vue");
 /* harmony import */ var _components_ProductsContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/ProductsContainer */ "./resources/js/components/ProductsContainer.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _ProductClass__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ProductClass */ "./resources/js/ProductClass.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_7__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -52157,6 +52155,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
+
+Vue.prototype.$userId = document.querySelector("meta[name='user-id']").getAttribute('content');
 var app = new Vue({
   el: '#app',
   components: {
@@ -52167,11 +52167,58 @@ var app = new Vue({
     SearchA: _components_SearchA__WEBPACK_IMPORTED_MODULE_4__["default"],
     ProductsContainer: _components_ProductsContainer__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
+  data: function data() {
+    return {
+      recievedItems: [],
+      items: [],
+      itemsCount: 0,
+      auth_id: ''
+    };
+  },
+  created: function created() {
+    this.getCartMain();
+  },
   methods: {
     getCart: function getCart(arr) {
+      var _this = this;
+
+      // console.log(arr);
+      if (arr.length > 0) {
+        arr.forEach(function (item) {
+          _this.recievedItems.push(item.product[0]);
+        });
+        this.recievedItems.forEach(function (item) {
+          _this.makeProductItem(item);
+        });
+        this.addItemsToCart(this.items);
+      }
+    },
+    //adding an object ProductClass to items
+    makeProductItem: function makeProductItem(item) {
+      var productItem = new _ProductClass__WEBPACK_IMPORTED_MODULE_6__["default"](item.product_id, item.product_name, item.product_img, item.product_price, item.product_quantity, item.company_id, item.category_id, '', item.product_availability, item.product_trending, item.product_description, item.created_at, item.updated_at);
+      this.items.push(productItem);
+      this.itemsCount = this.recievedItems.length;
+    },
+    addItemsToCart: function addItemsToCart(arr) {
       var cart = document.querySelector('#cart');
-      cart.innerHTML = arr[1].user_id;
-      console.log(arr);
+      var cartContent = "";
+      arr.forEach(function (el) {
+        cartContent += "\n            <li class=\"list-group-item\">\n                <div class=\"card mb-3 border-0\" style=\"max-width: 540px;\">\n                    <div class=\"row no-gutters\">\n                        <div class=\"col-md-4\">\n                        <img src=\"/images/products/".concat(el.product_img, "\" class=\"card-img\" alt=\"...\">\n                        </div>\n                        <div class=\"col-md-8\">\n                            <div class=\"card-body\">\n                                <h5 class=\"card-title\">").concat(el.product_name, "</h5>\n                                <p class=\"card-text\">").concat(el.product_price, "</p>\n                                <p class=\"card-text\"><small class=\"text-muted\">Last updated 3 mins ago</small></p>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </li>");
+      });
+      cart.innerHTML = cartContent;
+    },
+    getCartMain: function getCartMain() {
+      var _this2 = this;
+
+      console.log(this.$userId);
+
+      if (this.$userId != '') {
+        axios.get("/cart/".concat(this.$user_id)).then(function (response) {
+          _this2.getCart(response.data);
+
+          console.log(response.data);
+        });
+      }
     }
   }
 });
@@ -52814,8 +52861,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\training\laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\training\laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\coding\projects\Training\store\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\coding\projects\Training\store\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -4,14 +4,14 @@
            <img :src="'./images/products/'+imgUrl" class="card-img-top" :alt="name" >
             <transition name="fade">
             <div v-if="show" class="card-img-overlay py-4 blue-btns-container">
-                <a href="#" class="square-blue-btn"><img src="ico/search-light.svg" width="20px" alt="search"></a>
-                <a href="#" class="square-blue-btn"><img src="ico/heart-light.svg" width="20px" alt="heart"></a>
-                <a 
+                <button href="#" class="square-blue-btn"><img src="ico/search-light.svg" width="20px" alt="search"></button>
+                <button href="#" class="square-blue-btn"><img src="ico/heart-light.svg" width="20px" alt="heart"></button>
+                <button 
                 href="#" 
                 class="square-blue-btn"
                 @click="addToCart(auth_id,product_id)">
                 <img src="ico/shopping-cart-light.svg" width="20px" alt="shop">
-                </a>
+                </button>
             </div> 
             </transition>
         </div>     
@@ -42,9 +42,7 @@ export default {
     },
     methods:{
         showBtn: function(){
-            console.log(this.show);
             this.show= true;
-            console.log(this.show);
         },
         addToCart: function(userId, productId){
             let formData = new FormData();
@@ -89,8 +87,9 @@ export default {
              transition:0.5s;
              .square-blue-btn{
              background-color: rgba(60, 77, 234, 0.678);
-             padding:10px;
+             padding:6px;
              transition:0.1s;
+             border: none;
                 &:hover{
                     background-color: rgb(60, 77, 234);
                 }

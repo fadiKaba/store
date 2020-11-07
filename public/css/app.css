@@ -9984,6 +9984,9 @@ h3 {
   cursor: pointer;
   padding: 0.6rem 1rem;
 }
+.main-nav .items-right .cart-btn {
+  cursor: pointer;
+}
 
 .home {
   font-family: Arial, Helvetica, sans-serif;
