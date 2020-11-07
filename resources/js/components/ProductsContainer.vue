@@ -1,6 +1,6 @@
 <template>
-    <div class="prducts-container"> 
-
+    <div class="prducts-container mb-2 mb-md-4"> 
+        
         <div v-if="auth == 'true'" class="add-new-product">
             <button class="btn btn-primary mb-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                  <img src="/ico/add.svg" alt="Add" width="30px">
@@ -63,15 +63,21 @@
         </div>
          
         <search-bar></search-bar>    
-        <div class="row mt-2 mt-md-4">          
-            <div class="col-md-4">
-                <product img-url="product1.png" category="accessories" name="watch" price="150"></product>
-            </div>
-            <div class="col-md-4">
-                <product img-url="product1.png" category="accessories" name="watch" price="150"></product>
-            </div>
-            <div class="col-md-4">
-                <product img-url="product1.png" category="accessories" name="watch" price="150"></product>
+        <div class="row mt-2 mt-md-4">  
+            <div v-if="errors!=''" class="alert alert-danger" role="alert">
+                 {{errors}}
+            </div> 
+            <div v-for="product in products" :key="'p'+product.product_id" class="col-md-4 mt-3">
+
+                <product 
+                :img-url="(product.product_img != null) && (product.product_img != '')?product.product_img:'no_image.jpg'" 
+                :category="product.category_name"
+                :categoryId="product.product_category" 
+                :product_id="product.product_id"
+                :name="product.product_name" 
+                :price="product.product_price"
+                :auth_id="auth_id"
+                v-on:to-cart="addToCart($event)"></product>
             </div>
         </div> 
     </div>
@@ -80,6 +86,7 @@
 
 import Product from './Product';
 import SearchBar from './SearchBar';
+import ProductClass from '../ProductClass';
 
 export default {
     name:'ProductsContainer',
@@ -87,7 +94,54 @@ export default {
     props:{
         auth: String,
         csrf: String,
-    }
+        auth_id: [Number, String]
+    },
+    data: function(){
+        return{
+            products: [],
+            errors:'',
+        }
+    },
+    created:function(){
+        this.getProducts();
+        this.getCart();
+    },
+    methods:{
+        getProducts: function(){
+            axios.get('/product/all')
+            .then(response =>{               
+                response.data.forEach(item => {
+                   let nProduct = new ProductClass(
+                       item.product_id,
+                       item.product_name,
+                       item.product_img,
+                       item.product_price,
+                       item.product_quantity,
+                       item.company_id,
+                       item.category_id,
+                       item.category.category_name,
+                       item.product_availability,
+                       item.product_trending,
+                       item.product_description,
+                       item.created_at,
+                       item.updated_at
+                   );
+                   this.products.push(nProduct);
+                   this.errors='';
+                })                
+            }).catch(err => console.log(this.errors = err));
+        },
+        getCart: function(){
+            axios.get(`/cart/${this.auth_id}`)
+            .then(response => {
+                this.$emit('cart', response.data);
+                })
+        },
+        addToCart: function(event){
+          console.log(event);
+        },
+    },
+
 }
 </script>
 <style scoped>

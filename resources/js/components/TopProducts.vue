@@ -6,7 +6,7 @@
             <div class="col-md-3">
                 <div class="media">
                     <img 
-                    src="images/products/product1.png" 
+                    src="images/products/no_image.jpg" 
                     class="align-self-center mr-3" 
                     alt="..."
                     width="70px">

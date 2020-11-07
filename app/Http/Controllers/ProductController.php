@@ -7,7 +7,13 @@ use App\Product;
 use Image;
 
 class ProductController extends Controller
-{
+{   
+
+    public function index(){
+        $products = Product::with('category')->get();
+        return $products;
+    }
+
     public function store(Request $request){
 
         $request->validate([

@@ -32,9 +32,17 @@ import ProductFilter from './components/ProductFilter';
 import TopProducts from './components/TopProducts';
 import SearchA from './components/SearchA';
 import ProductsContainer from './components/ProductsContainer';
+import Axios from 'axios';
 
 const app = new Vue({
     el: '#app',
-    components:{Product, BrowsCategory, ProductFilter, TopProducts, SearchA, ProductsContainer}
+    components:{Product, BrowsCategory, ProductFilter, TopProducts, SearchA, ProductsContainer},
+    methods:{
+        getCart(arr){
+            let cart = document.querySelector('#cart');
+            cart.innerHTML = arr[1].user_id;
+            console.log(arr)
+        }
+    }
 });
 

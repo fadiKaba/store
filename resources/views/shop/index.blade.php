@@ -12,7 +12,10 @@
           @include('layouts/errors')         
            <products-container 
            auth="{{Auth::check() && Auth::user()->is_admin == 1?'true':'false' }}"
-          csrf="{{csrf_token()}}"></products-container>          
+           csrf="{{csrf_token()}}"
+           auth_id="{{Auth::id()}}"
+           @cart="getCart($event)">
+           </products-container>          
         </div>
     </div>
     <top-products></top-products>

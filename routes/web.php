@@ -23,6 +23,12 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/shop', 'ShopController@index');
 
+Route::get('/product/all', 'ProductController@index');
+
+
+Route::post('/cart/store', 'CartController@store');
+Route::get('/cart/{user_id}', 'CartController@index');
+
 Route::group(['middleware' => ['AdminMiddleware']], function(){
     Route::get('/admin', 'AdminController@index');
     Route::get('/user/all', 'UserController@index');
@@ -31,6 +37,7 @@ Route::group(['middleware' => ['AdminMiddleware']], function(){
     Route::patch('/user/{user_id}', 'UserController@update');  
     Route::delete('/user/{user_id}', 'UserController@destroy');
     Route::get('/user/{userName}/search', 'SearchController@searchA');
-
+    
     Route::post('/product/store', 'ProductController@store');
+   
 });

@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm main-nav">
+    <div id="cart"></div>
             <div class="container">
                 <a class="navbar-brand text-primary font-weight-bold" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}

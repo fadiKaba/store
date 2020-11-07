@@ -4,9 +4,14 @@
            <img :src="'./images/products/'+imgUrl" class="card-img-top" :alt="name" >
             <transition name="fade">
             <div v-if="show" class="card-img-overlay py-4 blue-btns-container">
-                <a href="" class="square-blue-btn"><img src="ico/search-light.svg" width="20px" alt="search"></a>
-                <a href="" class="square-blue-btn"><img src="ico/heart-light.svg" width="20px" alt="heart"></a>
-                <a href="" class="square-blue-btn"><img src="ico/shopping-cart-light.svg" width="20px" alt="shop"></a>
+                <a href="#" class="square-blue-btn"><img src="ico/search-light.svg" width="20px" alt="search"></a>
+                <a href="#" class="square-blue-btn"><img src="ico/heart-light.svg" width="20px" alt="heart"></a>
+                <a 
+                href="#" 
+                class="square-blue-btn"
+                @click="addToCart(auth_id,product_id)">
+                <img src="ico/shopping-cart-light.svg" width="20px" alt="shop">
+                </a>
             </div> 
             </transition>
         </div>     
@@ -18,6 +23,7 @@
     </div>
 </template>
 <script>
+import ProductClass from '../ProductClass';
 export default {
     name: 'Product',
     data: function(){
@@ -27,16 +33,33 @@ export default {
     },
     props:{
         imgUrl:String,
-        category:String,
+        category:[String, Number],
+        categoryId:[String, Number],
+        product_id:[String, Number],
         name:String,
-        price:[Number, String]
+        price:[Number, String],
+        auth_id:[Number, String],
     },
     methods:{
         showBtn: function(){
             console.log(this.show);
             this.show= true;
             console.log(this.show);
-        }
+        },
+        addToCart: function(userId, productId){
+            let formData = new FormData();
+            formData.append('user_id', userId);
+            formData.append('product_id', productId);
+           axios({
+               method: 'POST',
+               url:'/cart/store',
+               data:formData,
+           })
+           .then(response =>{
+               console.log(response);
+           }).catch();
+           this.$emit('to-cart','Hello');
+        },
     },
     computed:{
         

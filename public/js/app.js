@@ -1947,6 +1947,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ProductClass__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ProductClass */ "./resources/js/ProductClass.js");
 //
 //
 //
@@ -1966,6 +1967,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Product',
   data: function data() {
@@ -1975,15 +1982,31 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     imgUrl: String,
-    category: String,
+    category: [String, Number],
+    categoryId: [String, Number],
+    product_id: [String, Number],
     name: String,
-    price: [Number, String]
+    price: [Number, String],
+    auth_id: [Number, String]
   },
   methods: {
     showBtn: function showBtn() {
       console.log(this.show);
       this.show = true;
       console.log(this.show);
+    },
+    addToCart: function addToCart(userId, productId) {
+      var formData = new FormData();
+      formData.append('user_id', userId);
+      formData.append('product_id', productId);
+      axios({
+        method: 'POST',
+        url: '/cart/store',
+        data: formData
+      }).then(function (response) {
+        console.log(response);
+      })["catch"]();
+      this.$emit('to-cart', 'Hello');
     }
   },
   computed: {}
@@ -2044,6 +2067,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Product__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Product */ "./resources/js/components/Product.vue");
 /* harmony import */ var _SearchBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SearchBar */ "./resources/js/components/SearchBar.vue");
+/* harmony import */ var _ProductClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../ProductClass */ "./resources/js/ProductClass.js");
 //
 //
 //
@@ -2122,6 +2146,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2132,7 +2163,45 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: {
     auth: String,
-    csrf: String
+    csrf: String,
+    auth_id: [Number, String]
+  },
+  data: function data() {
+    return {
+      products: [],
+      errors: ''
+    };
+  },
+  created: function created() {
+    this.getProducts();
+    this.getCart();
+  },
+  methods: {
+    getProducts: function getProducts() {
+      var _this = this;
+
+      axios.get('/product/all').then(function (response) {
+        response.data.forEach(function (item) {
+          var nProduct = new _ProductClass__WEBPACK_IMPORTED_MODULE_2__["default"](item.product_id, item.product_name, item.product_img, item.product_price, item.product_quantity, item.company_id, item.category_id, item.category.category_name, item.product_availability, item.product_trending, item.product_description, item.created_at, item.updated_at);
+
+          _this.products.push(nProduct);
+
+          _this.errors = '';
+        });
+      })["catch"](function (err) {
+        return console.log(_this.errors = err);
+      });
+    },
+    getCart: function getCart() {
+      var _this2 = this;
+
+      axios.get("/cart/".concat(this.auth_id)).then(function (response) {
+        _this2.$emit('cart', response.data);
+      });
+    },
+    addToCart: function addToCart(event) {
+      console.log(event);
+    }
   }
 });
 
@@ -38909,7 +38978,7 @@ var render = function() {
                   [
                     _c(
                       "a",
-                      { staticClass: "square-blue-btn", attrs: { href: "" } },
+                      { staticClass: "square-blue-btn", attrs: { href: "#" } },
                       [
                         _c("img", {
                           attrs: {
@@ -38923,7 +38992,7 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "a",
-                      { staticClass: "square-blue-btn", attrs: { href: "" } },
+                      { staticClass: "square-blue-btn", attrs: { href: "#" } },
                       [
                         _c("img", {
                           attrs: {
@@ -38937,7 +39006,15 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "a",
-                      { staticClass: "square-blue-btn", attrs: { href: "" } },
+                      {
+                        staticClass: "square-blue-btn",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.addToCart(_vm.auth_id, _vm.product_id)
+                          }
+                        }
+                      },
                       [
                         _c("img", {
                           attrs: {
@@ -39093,7 +39170,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "prducts-container" },
+    { staticClass: "prducts-container mb-2 mb-md-4" },
     [
       _vm.auth == "true"
         ? _c("div", { staticClass: "add-new-product" }, [
@@ -39155,55 +39232,49 @@ var render = function() {
       _vm._v(" "),
       _c("search-bar"),
       _vm._v(" "),
-      _c("div", { staticClass: "row mt-2 mt-md-4" }, [
-        _c(
-          "div",
-          { staticClass: "col-md-4" },
-          [
-            _c("product", {
-              attrs: {
-                "img-url": "product1.png",
-                category: "accessories",
-                name: "watch",
-                price: "150"
-              }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-md-4" },
-          [
-            _c("product", {
-              attrs: {
-                "img-url": "product1.png",
-                category: "accessories",
-                name: "watch",
-                price: "150"
-              }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-md-4" },
-          [
-            _c("product", {
-              attrs: {
-                "img-url": "product1.png",
-                category: "accessories",
-                name: "watch",
-                price: "150"
-              }
-            })
-          ],
-          1
-        )
-      ])
+      _c(
+        "div",
+        { staticClass: "row mt-2 mt-md-4" },
+        [
+          _vm.errors != ""
+            ? _c(
+                "div",
+                { staticClass: "alert alert-danger", attrs: { role: "alert" } },
+                [_vm._v("\n             " + _vm._s(_vm.errors) + "\n        ")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._l(_vm.products, function(product) {
+            return _c(
+              "div",
+              { key: "p" + product.product_id, staticClass: "col-md-4 mt-3" },
+              [
+                _c("product", {
+                  attrs: {
+                    "img-url":
+                      product.product_img != null && product.product_img != ""
+                        ? product.product_img
+                        : "no_image.jpg",
+                    category: product.category_name,
+                    categoryId: product.product_category,
+                    product_id: product.product_id,
+                    name: product.product_name,
+                    price: product.product_price,
+                    auth_id: _vm.auth_id
+                  },
+                  on: {
+                    "to-cart": function($event) {
+                      return _vm.addToCart($event)
+                    }
+                  }
+                })
+              ],
+              1
+            )
+          })
+        ],
+        2
+      )
     ],
     1
   )
@@ -39820,7 +39891,7 @@ var staticRenderFns = [
             _c("img", {
               staticClass: "align-self-center mr-3",
               attrs: {
-                src: "images/products/product1.png",
+                src: "images/products/no_image.jpg",
                 alt: "...",
                 width: "70px"
               }
@@ -52005,6 +52076,39 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/ProductClass.js":
+/*!**************************************!*\
+  !*** ./resources/js/ProductClass.js ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ProductClass; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ProductClass = function ProductClass(product_id, product_name, product_img, product_price, product_quantity, product_company, product_category, category_name, product_availability, product_trending, product_description, created_at, updated_at) {
+  _classCallCheck(this, ProductClass);
+
+  this.product_id = product_id, this.product_name = product_name;
+  this.product_img = product_img;
+  this.product_price = product_price;
+  this.product_quantity = product_quantity;
+  this.product_compny = product_company;
+  this.product_category = product_category;
+  this.category_name = category_name;
+  this.product_availability = product_availability;
+  this.product_trending = product_trending;
+  this.product_description = product_description;
+  this.created_at = created_at;
+  this.updated_at = updated_at;
+};
+
+
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -52020,6 +52124,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_TopProducts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/TopProducts */ "./resources/js/components/TopProducts.vue");
 /* harmony import */ var _components_SearchA__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/SearchA */ "./resources/js/components/SearchA.vue");
 /* harmony import */ var _components_ProductsContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/ProductsContainer */ "./resources/js/components/ProductsContainer.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -52050,6 +52156,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 
+
 var app = new Vue({
   el: '#app',
   components: {
@@ -52059,6 +52166,13 @@ var app = new Vue({
     TopProducts: _components_TopProducts__WEBPACK_IMPORTED_MODULE_3__["default"],
     SearchA: _components_SearchA__WEBPACK_IMPORTED_MODULE_4__["default"],
     ProductsContainer: _components_ProductsContainer__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
+  methods: {
+    getCart: function getCart(arr) {
+      var cart = document.querySelector('#cart');
+      cart.innerHTML = arr[1].user_id;
+      console.log(arr);
+    }
   }
 });
 
@@ -52700,8 +52814,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\coding\projects\Training\store\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\coding\projects\Training\store\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\training\laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\training\laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
