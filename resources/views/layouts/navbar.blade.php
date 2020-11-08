@@ -59,7 +59,7 @@
                         <li class="nav-item">        
                             <a class="nav-link p-0 cart-btn" data-toggle="modal" data-target="#staticBackdrop">
                                 <img src="/ico/shopping-cart.svg" alt="" width="22px">
-                                <span class="badge badge-pill badge-primary" v-text="itemsCount"></span>
+                               @if(Auth::check()) <span class="badge badge-pill badge-primary" v-text="itemsCount"></span>@endif
                             </a>
                             <div class="modal-dialog modal-dialog-scrollable m-0">
                                 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -75,8 +75,13 @@
                                             <ul class="list-group list-group-flush" id="cart"></ul>
                                         </div>
                                         <div class="modal-footer">
+                                          @if(Auth::check())
                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                           <button type="button" class="btn btn-warning">Submit</button>
+                                          @else
+                                          <a class="btn btn-primary" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                          <a class="btn btn-primary" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                          @endif
                                         </div>
                                       </div>
                                     </div>

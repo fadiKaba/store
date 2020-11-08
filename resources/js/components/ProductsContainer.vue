@@ -61,7 +61,6 @@
                 </div>
             </div> 
         </div>
-         
         <search-bar></search-bar>    
         <div class="row mt-2 mt-md-4">  
             <div v-if="errors!=''" class="alert alert-danger" role="alert">
@@ -76,9 +75,10 @@
                 :name="product.product_name" 
                 :price="product.product_price"
                 :auth_id="auth_id"
-                v-on:to-cart="addToCart($event)"></product>
+                :isincart="auth_id != '' && auth_id != undefined?isInCart(product.product_id):''"
+                v-on:tocart="addToCart($event)"></product>
             </div>
-        </div> 
+        </div> {{auth_id}}
     </div>
 </template>
 <script>
@@ -93,7 +93,8 @@ export default {
     props:{
         auth: String,
         csrf: String,
-        auth_id: [Number, String]
+        auth_id: [Number, String],
+        cartproductsids: Array,
     },
     data: function(){
         return{
@@ -103,9 +104,9 @@ export default {
     },
     created:function(){
         this.getProducts();
-        this.getCart();
     },
     methods:{
+        // add new product
         getProducts: function(){
             axios.get('/product/all')
             .then(response =>{               
@@ -130,17 +131,15 @@ export default {
                 })                
             }).catch(err => console.log(this.errors = err));
         },
-        getCart: function(){
-            axios.get(`/cart/${this.auth_id}`)
-            .then(response => {
-                this.$emit('cart', response.data);
-                })
-        },
         addToCart: function(event){
-          console.log(event);
+          this.$emit('tocart', event);
+         // console.log(event.product);
         },
+        isInCart: function(num){
+            if(this.cartproductsids.includes(num)){return true}
+            return false;
+        }
     },
-
 }
 </script>
 <style scoped>

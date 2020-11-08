@@ -44,10 +44,11 @@ const app = new Vue({
             items:[],
             itemsCount: 0,
             auth_id:'',
+            cartProductsIds:[]
         }
     },
-    created:function(){
-        this.getCartMain();
+    mounted:function(){
+      if(this.$userId != '')  this.getCartMain();
     },
     methods:{
         getCart(arr){
@@ -78,6 +79,7 @@ const app = new Vue({
             item.updated_at
            );
            this.items.push(productItem);
+           this.cartProductsIds.push(productItem.product_id);
            this.itemsCount = this.recievedItems.length; 
         },
         addItemsToCart(arr){
@@ -105,15 +107,26 @@ const app = new Vue({
             cart.innerHTML = cartContent;
         },
         getCartMain: function(){
-            console.log(this.$userId)
             if(this.$userId != ''){
-               axios.get(`/cart/${this.$user_id}`)
+               axios.get(`/cart/${this.$userId}`)
                .then(response => {
                 this.getCart(response.data);
-                console.log(response.data)
                 }) 
             }   
         },
+        toCart: function(e){
+            let pt = e.product[0].product[0]
+            if(e.isAdd == false){
+               let el = this.items.findIndex(x => x.product_id == pt.product_id);
+               this.items.splice(el, 1);
+               this.addItemsToCart(this.items);
+             //  this.itemsCount--;
+            }else{
+                this.makeProductItem(pt);
+                this.addItemsToCart(this.items);
+              //  this.itemsCount++;
+            }
+        }
     }
 });
 

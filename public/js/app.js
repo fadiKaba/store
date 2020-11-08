@@ -1972,12 +1972,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Product',
   data: function data() {
     return {
-      show: false
+      show: false,
+      isCart: false
     };
   },
   props: {
@@ -1987,13 +1989,17 @@ __webpack_require__.r(__webpack_exports__);
     product_id: [String, Number],
     name: String,
     price: [Number, String],
-    auth_id: [Number, String]
+    auth_id: [Number, String],
+    isincart: Boolean
   },
+  mounted: function mounted() {},
   methods: {
     showBtn: function showBtn() {
       this.show = true;
     },
     addToCart: function addToCart(userId, productId) {
+      var _this = this;
+
       var formData = new FormData();
       formData.append('user_id', userId);
       formData.append('product_id', productId);
@@ -2002,12 +2008,21 @@ __webpack_require__.r(__webpack_exports__);
         url: '/cart/store',
         data: formData
       }).then(function (response) {
-        console.log(response);
+        _this.isCart = response.data[0];
+
+        _this.$emit('tocart', {
+          isAdd: response.data[0],
+          product: response.data[1]
+        });
       })["catch"]();
-      this.$emit('to-cart', 'Hello');
     }
   },
-  computed: {}
+  computed: {},
+  watch: {
+    isincart: function isincart(newVal) {
+      this.isCart = newVal;
+    }
+  }
 });
 
 /***/ }),
@@ -2161,7 +2176,8 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     auth: String,
     csrf: String,
-    auth_id: [Number, String]
+    auth_id: [Number, String],
+    cartproductsids: Array
   },
   data: function data() {
     return {
@@ -2171,9 +2187,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.getProducts();
-    this.getCart();
   },
   methods: {
+    // add new product
     getProducts: function getProducts() {
       var _this = this;
 
@@ -2189,15 +2205,15 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(_this.errors = err);
       });
     },
-    getCart: function getCart() {
-      var _this2 = this;
-
-      axios.get("/cart/".concat(this.auth_id)).then(function (response) {
-        _this2.$emit('cart', response.data);
-      });
-    },
     addToCart: function addToCart(event) {
-      console.log(event);
+      this.$emit('tocart', event); // console.log(event.product);
+    },
+    isInCart: function isInCart(num) {
+      if (this.cartproductsids.includes(num)) {
+        return true;
+      }
+
+      return false;
     }
   }
 });
@@ -39001,27 +39017,35 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "square-blue-btn",
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            return _vm.addToCart(_vm.auth_id, _vm.product_id)
-                          }
-                        }
-                      },
-                      [
-                        _c("img", {
-                          attrs: {
-                            src: "ico/shopping-cart-light.svg",
-                            width: "20px",
-                            alt: "shop"
-                          }
-                        })
-                      ]
-                    )
+                    _vm.auth_id != ""
+                      ? _c(
+                          "button",
+                          {
+                            class: [
+                              "square-blue-btn",
+                              _vm.isCart ? "bg-danger" : "bg-pimary"
+                            ],
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.addToCart(
+                                  _vm.auth_id,
+                                  _vm.product_id
+                                )
+                              }
+                            }
+                          },
+                          [
+                            _c("img", {
+                              attrs: {
+                                src: "ico/shopping-cart-light.svg",
+                                width: "20px",
+                                alt: "shop"
+                              }
+                            })
+                          ]
+                        )
+                      : _vm._e()
                   ]
                 )
               : _vm._e()
@@ -39257,10 +39281,14 @@ var render = function() {
                     product_id: product.product_id,
                     name: product.product_name,
                     price: product.product_price,
-                    auth_id: _vm.auth_id
+                    auth_id: _vm.auth_id,
+                    isincart:
+                      _vm.auth_id != "" && _vm.auth_id != undefined
+                        ? _vm.isInCart(product.product_id)
+                        : ""
                   },
                   on: {
-                    "to-cart": function($event) {
+                    tocart: function($event) {
                       return _vm.addToCart($event)
                     }
                   }
@@ -39271,7 +39299,8 @@ var render = function() {
           })
         ],
         2
-      )
+      ),
+      _vm._v(" " + _vm._s(_vm.auth_id) + "\n")
     ],
     1
   )
@@ -52172,11 +52201,12 @@ var app = new Vue({
       recievedItems: [],
       items: [],
       itemsCount: 0,
-      auth_id: ''
+      auth_id: '',
+      cartProductsIds: []
     };
   },
-  created: function created() {
-    this.getCartMain();
+  mounted: function mounted() {
+    if (this.$userId != '') this.getCartMain();
   },
   methods: {
     getCart: function getCart(arr) {
@@ -52197,6 +52227,7 @@ var app = new Vue({
     makeProductItem: function makeProductItem(item) {
       var productItem = new _ProductClass__WEBPACK_IMPORTED_MODULE_6__["default"](item.product_id, item.product_name, item.product_img, item.product_price, item.product_quantity, item.company_id, item.category_id, '', item.product_availability, item.product_trending, item.product_description, item.created_at, item.updated_at);
       this.items.push(productItem);
+      this.cartProductsIds.push(productItem.product_id);
       this.itemsCount = this.recievedItems.length;
     },
     addItemsToCart: function addItemsToCart(arr) {
@@ -52210,14 +52241,24 @@ var app = new Vue({
     getCartMain: function getCartMain() {
       var _this2 = this;
 
-      console.log(this.$userId);
-
       if (this.$userId != '') {
-        axios.get("/cart/".concat(this.$user_id)).then(function (response) {
+        axios.get("/cart/".concat(this.$userId)).then(function (response) {
           _this2.getCart(response.data);
-
-          console.log(response.data);
         });
+      }
+    },
+    toCart: function toCart(e) {
+      var pt = e.product[0].product[0];
+
+      if (e.isAdd == false) {
+        var el = this.items.findIndex(function (x) {
+          return x.product_id == pt.product_id;
+        });
+        this.items.splice(el, 1);
+        this.addItemsToCart(this.items); //  this.itemsCount--;
+      } else {
+        this.makeProductItem(pt);
+        this.addItemsToCart(this.items); //  this.itemsCount++;
       }
     }
   }
@@ -52861,8 +52902,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\coding\projects\Training\store\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\coding\projects\Training\store\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! E:\training\laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! E:\training\laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

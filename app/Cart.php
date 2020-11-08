@@ -10,6 +10,6 @@ class Cart extends Model
     protected $fillable = ['user_id', 'product_id'];
 
     public function product(){
-        return $this->hasMany(Product::class, 'product_id');
+        return $this->hasMany(Product::class, 'product_id', 'product_id');
     }
 }

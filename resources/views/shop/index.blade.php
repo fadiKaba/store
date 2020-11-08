@@ -14,7 +14,9 @@
            auth="{{Auth::check() && Auth::user()->is_admin == 1?'true':'false' }}"
            csrf="{{csrf_token()}}"
            auth_id="{{Auth::id()}}"
-           @cart="getCart($event)">
+           @cart="getCart($event)"
+           @tocart="toCart($event)"
+           :cartproductsids="cartProductsIds">
            </products-container>          
         </div>
     </div>

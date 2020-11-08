@@ -7,8 +7,9 @@
                 <button href="#" class="square-blue-btn"><img src="ico/search-light.svg" width="20px" alt="search"></button>
                 <button href="#" class="square-blue-btn"><img src="ico/heart-light.svg" width="20px" alt="heart"></button>
                 <button 
+                v-if="auth_id != ''"
                 href="#" 
-                class="square-blue-btn"
+                :class="['square-blue-btn', isCart?'bg-danger':'bg-pimary']"
                 @click="addToCart(auth_id,product_id)">
                 <img src="ico/shopping-cart-light.svg" width="20px" alt="shop">
                 </button>
@@ -29,6 +30,7 @@ export default {
     data: function(){
         return{
             show: false,
+            isCart:false,
         }
     },
     props:{
@@ -39,6 +41,10 @@ export default {
         name:String,
         price:[Number, String],
         auth_id:[Number, String],
+        isincart:Boolean,
+    },
+    mounted: function(){
+
     },
     methods:{
         showBtn: function(){
@@ -54,13 +60,19 @@ export default {
                data:formData,
            })
            .then(response =>{
-               console.log(response);
+              this.isCart = response.data[0];
+              this.$emit('tocart',{isAdd: response.data[0], product:response.data[1]});
            }).catch();
-           this.$emit('to-cart','Hello');
+           
         },
     },
     computed:{
         
+    },
+    watch:{
+        isincart: function(newVal){
+            this.isCart = newVal;
+        }
     }
 }
 </script>

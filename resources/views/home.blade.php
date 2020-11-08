@@ -24,7 +24,13 @@
               <p class="text-muted mb-0">Popular Item in the market</p>
               <h2 class="pb-2 pb-md-5">Trending <span>Products</span></h2>
               <div class="products-container">
-                 <products-container></products-container>
+                 <products-container
+                 auth="{{Auth::check() && Auth::user()->is_admin == 1?'true':'false' }}"
+                 csrf="{{csrf_token()}}"
+                 auth_id="{{Auth::id()}}"
+                 @cart="getCart($event)"
+                 :cartproductsids="cartProductsIds">
+                </products-container>
               </div>             
          </div>
     </section>  
